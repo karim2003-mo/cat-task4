@@ -11,6 +11,8 @@ void main() {
       BlocProvider(create: (context) => CubitThemeState()),
       BlocProvider(create: (context) => CubitGenderState()),
       BlocProvider(create: (context) => CubitCheckBoxState()),
+      BlocProvider(create: (context) => CubitFirstnamevalidation()),
+      BlocProvider(create: (context) => Cubilastnamevalidation()),
     
     ],
     child: BlocProvider(

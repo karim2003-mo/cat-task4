@@ -28,3 +28,21 @@ class CubitCheckBoxState extends Cubit<CheckBoxState>{
     emit(FalseState());
   }
 }
+class CubitFirstnamevalidation extends Cubit<Firstnamevalidation>{
+  CubitFirstnamevalidation():super(Validfirstname());
+  valid(){
+    emit(Validfirstname());
+  }
+  invalid(){
+    emit(Invalidfirstname());
+  }
+}
+class Cubilastnamevalidation extends Cubit<Lastnamevalidation>{
+  Cubilastnamevalidation():super(Validlastname());
+  valid(){
+    emit(Validlastname());
+  }
+  invalid(){
+    emit(Invalidlastname());
+  }
+}

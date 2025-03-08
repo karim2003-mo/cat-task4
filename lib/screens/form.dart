@@ -6,7 +6,11 @@ import 'package:task3/cubit/widgetstate.dart';
 import 'package:task3/screens/screenmode.dart';
 import 'package:task3/stdpixels/stdpixel.dart';
 
-enum Gender { None, Male, Female }
+enum Gender {
+  None,
+  Male,
+  Female,
+}
 
 class FormScreen extends StatefulWidget {
   @override
@@ -53,7 +57,6 @@ class FormScreentate extends State<FormScreen> {
               child: BlocBuilder<CubitThemeState, ThemeMode>(
                 builder: (context, state) {
                   return Switch(
-                    
                       activeColor: Colors.green,
                       inactiveThumbColor: Color.fromRGBO(217, 217, 217, 1),
                       thumbColor: WidgetStateProperty.resolveWith<Color>(
@@ -84,54 +87,97 @@ class FormScreentate extends State<FormScreen> {
           padding: EdgeInsets.all(5 * _pixel.horizontalpixel()),
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 31 * _pixel.verticalpixel()),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 4,
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                          spreadRadius: 0,
-                          blurStyle: BlurStyle.normal,
-                          offset: Offset(0, 0))
-                    ],
-                    borderRadius: BorderRadius.circular(15)),
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: "Enter your first name",
-                      hintStyle: GoogleFonts.poppins(
-                          color: Color.fromRGBO(134, 119, 119, 1),
-                          fontSize: 9 * _pixel.horizontalpixel()),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).primaryColor),
-                          borderRadius: BorderRadius.circular(15))),
+              BlocProvider(
+                create: (context) => CubitFirstnamevalidation(),
+                child: Container(
+                  margin: EdgeInsets.only(top: 31 * _pixel.verticalpixel()),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                            spreadRadius: 0,
+                            blurStyle: BlurStyle.normal,
+                            offset: Offset(0, 0))
+                      ],
+                      borderRadius: BorderRadius.circular(15)),
+                  child: BlocBuilder<CubitFirstnamevalidation,
+                      Firstnamevalidation>(
+                    builder: (context, state) {
+                      return TextField(
+                        onChanged: (value) {
+                          if (validatename(value) == false) {
+                            context.read<CubitFirstnamevalidation>().invalid();
+                          } else {
+                            context.read<CubitFirstnamevalidation>().valid();
+                          }
+                        },
+                        decoration: InputDecoration(
+                            hintText: "Enter your first name",
+                            hintStyle: GoogleFonts.poppins(
+                                color: Color.fromRGBO(134, 119, 119, 1),
+                                fontSize: 9 * _pixel.horizontalpixel()),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: (state is Validfirstname)
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.red),
+                                borderRadius: BorderRadius.circular(15)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: (state is Validfirstname)
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.red),
+                                borderRadius: BorderRadius.circular(15))),
+                      );
+                    },
+                  ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 31 * _pixel.verticalpixel()),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 4,
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                          spreadRadius: 0,
-                          blurStyle: BlurStyle.normal,
-                          offset: Offset(0, 0))
-                    ],
-                    borderRadius: BorderRadius.circular(15)),
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: "Enter your last name",
-                      hintStyle: GoogleFonts.poppins(
-                          color: Color.fromRGBO(134, 119, 119, 1),
-                          fontSize: 9 * _pixel.horizontalpixel()),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).primaryColor),
-                          borderRadius: BorderRadius.circular(15))),
+              BlocProvider(
+                create: (context) => Cubilastnamevalidation(),
+                child: Container(
+                  margin: EdgeInsets.only(top: 31 * _pixel.verticalpixel()),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                            spreadRadius: 0,
+                            blurStyle: BlurStyle.normal,
+                            offset: Offset(0, 0))
+                      ],
+                      borderRadius: BorderRadius.circular(15)),
+                  child: BlocBuilder<Cubilastnamevalidation,Lastnamevalidation >(
+                    builder: (context, state) {
+                      return TextField(
+                        onChanged: (value) {
+                          if (validatename(value) == false) {
+                            context.read<Cubilastnamevalidation>().invalid();
+                          } else {
+                            context.read<Cubilastnamevalidation>().valid();
+                          }
+                        },
+                        decoration: InputDecoration(
+                            hintText: "Enter your last name",
+                            hintStyle: GoogleFonts.poppins(
+                                color: Color.fromRGBO(134, 119, 119, 1),
+                                fontSize: 9 * _pixel.horizontalpixel()),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor),
+                                borderRadius: BorderRadius.circular(15)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: (state is Validlastname)
+                                        ? Theme.of(context).primaryColor
+                                        : Colors.red),
+                                borderRadius: BorderRadius.circular(15))),
+                      );
+                    },
+                  ),
                 ),
               ),
               BlocProvider(
@@ -232,50 +278,56 @@ class FormScreentate extends State<FormScreen> {
                             return Transform.scale(
                               scale: 1.3,
                               child: Checkbox(
-                                splashRadius: 20,
-                                value: _agree, onChanged: (val) {
-                                if(state is TrueState){
-                                  _agree=!_agree;
-                                  context.read<CubitCheckBoxState>().truemark();
-                                }else{
-                                  _agree=!_agree;
-                                  context.read<CubitCheckBoxState>().nonemark();
-                                }
-                              }),
+                                  splashRadius: 20,
+                                  value: _agree,
+                                  onChanged: (val) {
+                                    if (state is TrueState) {
+                                      _agree = !_agree;
+                                      context
+                                          .read<CubitCheckBoxState>()
+                                          .truemark();
+                                    } else {
+                                      _agree = !_agree;
+                                      context
+                                          .read<CubitCheckBoxState>()
+                                          .nonemark();
+                                    }
+                                  }),
                             );
                           },
                         ),
                         Text(
-                            "by clicking this box this mean\n you agree to all terms",
-                            style: GoogleFonts.poppins(
-                              fontSize: 10 * _pixel.horizontalpixel(),
-                              color: Color.fromRGBO(134, 119, 119, 1),
-                            ),
+                          "by clicking this box this mean\n you agree to all terms",
+                          style: GoogleFonts.poppins(
+                            fontSize: 10 * _pixel.horizontalpixel(),
+                            color: Color.fromRGBO(134, 119, 119, 1),
                           ),
+                        ),
                       ],
                     ),
                   ),
                 ),
-              ),Container(
-                margin: EdgeInsets.only(top: 20*_pixel.verticalpixel()),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 20 * _pixel.verticalpixel()),
                 child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                fixedSize: Size(
-                  124.27 * _pixel.horizontalpixel(),
-                  22.05 * _pixel.verticalpixel(),
-                )),
-                          child: Text(
-                            'Submit',
-                            style: GoogleFonts.poppins(
-                  color: Theme.of(context).textTheme.bodyLarge!.color,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.5 * _pixel.horizontalpixel()),
-                          ),
-                        ),
-                      ),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        fixedSize: Size(
+                          124.27 * _pixel.horizontalpixel(),
+                          22.05 * _pixel.verticalpixel(),
+                        )),
+                    child: Text(
+                      'Submit',
+                      style: GoogleFonts.poppins(
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14.5 * _pixel.horizontalpixel()),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -283,7 +335,8 @@ class FormScreentate extends State<FormScreen> {
       ),
     );
   }
-  bool validatename(String name){
+
+  bool validatename(String name) {
     RegExp nameRegExp = RegExp(r"^[A-Za-z][A-Za-z'-]{1,29}$");
     return nameRegExp.hasMatch(name);
   }
